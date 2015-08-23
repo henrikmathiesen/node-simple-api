@@ -6,7 +6,7 @@ var routes = {
 };
 
 var send404Response = function (res) {
-	res.writeHead(200, { 'Context-Type': 'text/plain' });
+	res.writeHead(404, { 'Context-Type': 'text/plain' });
 	res.write('404: Not found');
 	res.end();
 };
