@@ -10,7 +10,6 @@ var routes = {
 var send404Response = function (res) {
 	res.writeHead(404, { 'Content-Type': 'text/plain' });
 	res.write('404: Not found');
-	res.end();
 };
 
 var sendEvents = function (res) {
@@ -19,7 +18,6 @@ var sendEvents = function (res) {
 	
 	res.writeHead(200, { 'Content-Type': 'application/json' });
 	res.write(JSON.stringify(events));
-	res.end();
 };
 
 http.createServer(function (req, res) {
@@ -30,5 +28,7 @@ http.createServer(function (req, res) {
 	else {
 		send404Response(res);
 	}
+	
+	res.end();
 	
 }).listen(1338);
