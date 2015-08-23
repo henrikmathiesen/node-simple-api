@@ -12,6 +12,10 @@ var send404Response = function (res) {
 };
 
 var sendEvents = function (res) {
+	
+	res.setHeader("Access-Control-Allow-Origin", "http://localhost:1337");
+	res.setHeader("Access-Control-Allow-Headers", "Content-Type");
+	
 	res.writeHead(200, { 'Context-Type': 'text/plain' });
 	res.write('Hi there!');
 	res.end();
@@ -25,6 +29,5 @@ http.createServer(function (req, res) {
 	else {
 		send404Response(res);
 	}
-
-
+	
 }).listen(1338);
