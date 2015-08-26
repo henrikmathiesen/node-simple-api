@@ -1,7 +1,7 @@
 var http = require('http');
 var fs = require('fs');
 
-var events = require('./data/event/1.json');
+var events = require('./data/event/1.js');
 
 var routes = {
 	getEvents: "/getevents"
