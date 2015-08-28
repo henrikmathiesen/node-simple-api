@@ -1,10 +1,10 @@
 var http = require('http');
-var fs = require('fs');
 
-var events = require('./data/event/1.js');
+var events = require('./events.js');
 
 var routes = {
-	getEvents: "/getevents"
+	getEvents: "/getevents",
+	getEvent: "/getevent?id="
 };
 
 var send404Response = function (res) {
@@ -20,10 +20,30 @@ var sendEvents = function (res) {
 	res.write(JSON.stringify(events));
 };
 
+var sendEvent = function(res, id){
+	res.setHeader("Access-Control-Allow-Origin", "http://localhost:1337");
+	res.setHeader("Access-Control-Allow-Headers", "Content-Type");
+	
+	id = parseInt(id);
+	var eventToSend = events[id];
+	
+	if(!eventToSend) {
+		send404Response(res);
+		return;
+	}
+	
+	res.writeHead(200, { 'Content-Type': 'application/json' });
+	res.write(JSON.stringify(eventToSend));
+};
+
 http.createServer(function (req, res) {
 	
 	if((req.method == 'GET') && (req.url == routes.getEvents)) {
 		sendEvents(res);
+	}
+	else if((req.method == 'GET') && (req.url.indexOf(routes.getEvent) != -1 )) {
+		var id = req.url.split('?id=')[1];
+		sendEvent(res, id);
 	}
 	else {
 		send404Response(res);
