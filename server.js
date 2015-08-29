@@ -12,17 +12,19 @@ var send404Response = function (res) {
 	res.write('404: Not found');
 };
 
-var sendEvents = function (res) {
+var setCorsHeaders = function (res){
 	res.setHeader("Access-Control-Allow-Origin", "http://localhost:1337");
 	res.setHeader("Access-Control-Allow-Headers", "Content-Type");
-	
+};
+
+var sendEvents = function (res) {
+	setCorsHeaders(res);
 	res.writeHead(200, { 'Content-Type': 'application/json' });
 	res.write(JSON.stringify(events));
 };
 
 var sendEvent = function(res, id){
-	res.setHeader("Access-Control-Allow-Origin", "http://localhost:1337");
-	res.setHeader("Access-Control-Allow-Headers", "Content-Type");
+	setCorsHeaders(res);
 	
 	id = parseInt(id);
 	var eventToSend = events[id];
