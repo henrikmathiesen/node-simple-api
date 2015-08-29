@@ -1,6 +1,4 @@
 var http = require('http');
-var qs = require('querystring');
-
 var events = require('./events.js');
 
 var routes = {
@@ -9,23 +7,28 @@ var routes = {
 	postEvent: '/postevent'
 };
 
-var send404Response = function (res) {
-	res.writeHead(404, { 'Content-Type': 'text/plain' });
-	res.write('404: Not found');
-};
-
 var setCorsHeaders = function (res, save) {
 	res.setHeader('Access-Control-Allow-Origin', 'http://localhost:1337');
 	res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
 	if (save) {
-		res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
+		res.setHeader('Access-Control-Allow-Methods', 'OPTIONS, POST');
 	}
 };
 
+var send404Response = function (res) {
+	res.writeHead(404, { 'Content-Type': 'text/plain' });
+	res.write('404: Not found');
+	res.end();
+};
+
+
+// SEND EVENT/S
+// =============================================================================================
 var sendEvents = function (res) {
 	setCorsHeaders(res);
 	res.writeHead(200, { 'Content-Type': 'application/json' });
 	res.write(JSON.stringify(events));
+	res.end();
 };
 
 var sendEvent = function (res, id) {
@@ -41,29 +44,37 @@ var sendEvent = function (res, id) {
 
 	res.writeHead(200, { 'Content-Type': 'application/json' });
 	res.write(JSON.stringify(eventToSend));
+	res.end();
 };
+// =============================================================================================
 
+
+// SAVE EVENT
+// =============================================================================================
 var preflightResponse = function (res) {
 	setCorsHeaders(res, true);
 	res.writeHead(200);
+	res.end();
 };
 
 var saveEvent = function (req, res) {
 	setCorsHeaders(res, true);
 
-	var data = null;
+	var event = '';
 
 	req.on('data', function (payload) {
-		data += payload;
+		event += payload;
 	});
 	req.on('end', function () {
-		data = qs.parse(data);
-		//data = JSON.parse(data);
+		event = JSON.parse(event);
+		events.push(event);
 		
+		res.writeHead(200);
+		res.end();
 	});
-
-	res.writeHead(200);
 };
+// =============================================================================================
+
 
 http.createServer(function (req, res) {
 
@@ -84,7 +95,4 @@ http.createServer(function (req, res) {
 	else {
 		send404Response(res);
 	}
-
-	res.end();
-
 }).listen(1338);
