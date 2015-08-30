@@ -67,6 +67,7 @@ var saveEvent = function (req, res) {
 	});
 	req.on('end', function () {
 		event = JSON.parse(event);
+		event.id = events.length;
 		events.push(event);
 		
 		res.writeHead(200);
@@ -86,7 +87,6 @@ http.createServer(function (req, res) {
 		sendEvent(res, id);
 	}
 	else if ((req.method == 'OPTIONS') && (req.url == routes.postEvent)) {
-		// Preflight check from browser
 		preflightResponse(res);
 	}
 	else if ((req.method == 'POST') && (req.url == routes.postEvent)) {
