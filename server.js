@@ -27,8 +27,12 @@ var send404Response = function (res) {
 var sendEvents = function (res) {
 	setCorsHeaders(res);
 	res.writeHead(200, { 'Content-Type': 'application/json' });
-	res.write(JSON.stringify(events));
-	res.end();
+	
+	// DEBUG
+	setTimeout(function(){
+		res.write(JSON.stringify(events));
+		res.end();
+	}, 2000);
 };
 
 var sendEvent = function (res, id) {
