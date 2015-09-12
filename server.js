@@ -47,8 +47,13 @@ var sendEvent = function (res, id) {
 	}
 
 	res.writeHead(200, { 'Content-Type': 'application/json' });
-	res.write(JSON.stringify(eventToSend));
-	res.end();
+	
+	// DEBUG
+	setTimeout(function(){
+		res.write(JSON.stringify(eventToSend));
+		res.end();
+	}, 2000);
+	
 };
 // =============================================================================================
 
