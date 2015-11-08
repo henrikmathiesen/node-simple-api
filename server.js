@@ -28,11 +28,10 @@ var sendEvents = function (res) {
 	setCorsHeaders(res);
 	res.writeHead(200, { 'Content-Type': 'application/json' });
 	
-	// DEBUG
-	// setTimeout(function(){
-	// 	res.write(JSON.stringify(events));
-	// 	res.end();
-	// }, 2000);
+	//DEBUG
+	//setTimeout(function(){}, 2000);
+	res.write(JSON.stringify(events));
+	res.end();
 };
 
 var sendEvent = function (res, id) {
@@ -49,10 +48,9 @@ var sendEvent = function (res, id) {
 	res.writeHead(200, { 'Content-Type': 'application/json' });
 	
 	// DEBUG
-	// setTimeout(function(){
-	// 	res.write(JSON.stringify(eventToSend));
-	// 	res.end();
-	// }, 2000);
+	// setTimeout(function(){}, 2000);
+	res.write(JSON.stringify(eventToSend));
+	res.end();
 	
 };
 // =============================================================================================
