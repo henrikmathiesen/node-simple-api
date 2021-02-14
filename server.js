@@ -74,7 +74,7 @@ var saveEvent = function (req, res) {
 	});
 	req.on('end', function () {
 		event = JSON.parse(event);
-		event.id = events.length;
+		event.id = events.length;	// could be trouble if deleting events (not implemented)
 		events.push(event);
 		
 		res.writeHead(200);
